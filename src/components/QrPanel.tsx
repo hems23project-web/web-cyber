@@ -4,12 +4,36 @@ import { QR_CONFIG } from '@/data/birthdayConfig'
 import { sfx } from '@/utils/sound'
 
 /**
+ * Is this page being served from a development/local origin?
+ *
+ * The QR falls back to `window.location.origin` when `SITE_URL` is empty. On a
+ * real deployment that fallback is *correct*, so no warning is needed — and
+ * showing one would leak build details onto a page that is meant to be a gift.
+ * On localhost the fallback would encode a URL nobody else can open, which is
+ * exactly the mistake the warning exists to prevent.
+ */
+export function isLocalOrigin(
+  loc: { hostname: string; port: string } = typeof window === 'undefined'
+    ? { hostname: 'localhost', port: '' }
+    : window.location,
+): boolean {
+  const host = loc.hostname.toLowerCase().replace(/^\[|\]$/g, '')
+  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local')) return true
+  if (host === '::1' || host === '127.0.0.1') return true
+  // Private / link-local IPv4 ranges are never a public gift URL.
+  if (/^(10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host)) return true
+  // A non-standard port means a dev server or a sandbox preview.
+  if (loc.port && loc.port !== '80' && loc.port !== '443') return true
+  return false
+}
+
+/**
  * QrPanel — generate, preview and export the QR.
  *
  * Everything is produced in the browser from `SITE_URL` in
- * `src/data/birthdayConfig.ts`. If SITE_URL is still empty it encodes the
- * current origin and says so loudly, so you can never accidentally hand a
- * printed/embroidered QR to the wrong address.
+ * `src/data/birthdayConfig.ts`. When that's empty the current origin is used:
+ * correct once deployed, and loudly flagged while you're still on localhost so
+ * you can never hand a printed or embroidered QR to an address nobody can open.
  */
 export function QrPanel() {
   const [bundle, setBundle] = useState<QrBundle | null>(null)
@@ -64,11 +88,13 @@ export function QrPanel() {
             <dd className="mono qrpanel__value">{bundle?.value ?? '—'}</dd>
             <dt>SOURCE</dt>
             <dd className="mono">
-              {bundle?.usingFallback ? (
+              {bundle?.usingFallback && isLocalOrigin() ? (
                 <span className="qrpanel__warn">
                   ⚠ SITE_URL is empty — using the current origin. Set it in{' '}
                   <code>src/data/birthdayConfig.ts</code> before you print or stitch anything.
                 </span>
+              ) : bundle?.usingFallback ? (
+                <span className="qrpanel__ok">this live address — correct as deployed</span>
               ) : (
                 <span className="qrpanel__ok">SITE_URL from birthdayConfig.ts</span>
               )}

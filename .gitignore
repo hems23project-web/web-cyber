@@ -18,3 +18,7 @@ yarn-error.log*
 
 # tsc incremental build info
 *.tsbuildinfo
+
+# deployment packaging (generated, never committed)
+.deploy
+mi-birthday-site.zip

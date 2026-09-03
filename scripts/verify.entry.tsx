@@ -285,6 +285,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import App from '@/App'
 import { buildQr } from '@/utils/qr'
+import { isLocalOrigin } from '@/components/QrPanel'
 
 const rootEl = document.getElementById('root')!
 let root: Root
@@ -691,7 +692,14 @@ async function run() {
   check('QR preview SVG injected', Boolean(q('.qrpanel__svg svg')))
   check('DOWNLOAD QR SVG button', Boolean(byText('button', 'DOWNLOAD QR SVG')))
   check('DOWNLOAD QR PNG button', Boolean(byText('button', 'DOWNLOAD QR PNG')))
-  check('warns that SITE_URL is empty', text().includes('SITE_URL is empty'))
+  check('warns that SITE_URL is empty while on a dev origin', text().includes('SITE_URL is empty'))
+  // Once deployed the fallback IS the right address, so the dev warning — which
+  // names a source file — must disappear from the gift.
+  check('a public origin is not treated as local', isLocalOrigin({ hostname: 'some-gift.netlify.app', port: '' }) === false)
+  check('an apex domain is not treated as local', isLocalOrigin({ hostname: 'birthday.example.com', port: '443' }) === false)
+  check('localhost is treated as local', isLocalOrigin({ hostname: 'localhost', port: '5173' }) === true)
+  check('a private IP is treated as local', isLocalOrigin({ hostname: '192.168.1.20', port: '' }) === true)
+  check('a sandbox preview port is treated as local', isLocalOrigin({ hostname: '4173-abc.e2b.app', port: '4173' }) === true)
   check(
     'developer note about embroidery testing',
     text().includes('physically test the final stitched QR with multiple phones before production'),
