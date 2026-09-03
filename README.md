@@ -94,6 +94,14 @@ The app is a **single static page** — navigation is internal state
 zero rewrite rules: Netlify, Vercel, Cloudflare Pages, GitHub Pages, or
 `dist/` dropped on any file server. Build with `npm run build`, publish `dist/`.
 
+The build uses a **relative `base`** and every clue file, photo and favicon is
+resolved through `assetUrl()` (`src/utils/paths.ts`), so the *same* `dist/` works
+at a domain root **and** under a sub-path like `https://user.github.io/repo/`.
+That matters more than it sounds: the puzzles point at `/archive/…` and
+`/records/…`, and if those 404 then three of the seven memories become
+unsolvable with no visible error. Don't hardcode a leading-slash URL for
+anything the browser fetches — go through `assetUrl()`.
+
 ---
 
 ## 3. The flow
@@ -196,7 +204,7 @@ npm run verify
 
 A jsdom-driven end-to-end harness
 ([`scripts/verify.entry.tsx`](scripts/verify.entry.tsx)) boots the real app and
-plays it: **322 assertions**, currently all passing. It covers
+plays it: **333 assertions**, currently all passing. It covers
 
 - the full solve path, memory by memory, including the multi-stage final core;
 - hint tracking, wrong-answer messaging, persistence across a simulated refresh;
@@ -204,8 +212,10 @@ plays it: **322 assertions**, currently all passing. It covers
 - the static puzzle files (`/archive/*`, `/records/*`) resolving;
 - the gallery + timeline falling back to placeholders when photos are missing;
 - the QR module matrix — square viewBox, correct quiet zone, ECC H;
-- **leak scans** over both `dist/` and `src/`: no real flag, no snake-case
-  answer, no joke words;
+- **leak scans** over every file that ships in `dist/` and over `src/`: no real
+  flag, no snake-case answer, no joke words. The scan guards against coming back
+  empty, because it once did — `dist/assets` was renamed to `dist/static`, the
+  file list came back empty, and the checks passed without reading a single byte;
 - zero unexpected console errors.
 
 Run it after any copy or config edit. `verify:fast` skips the production rebuild

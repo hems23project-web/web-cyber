@@ -1,9 +1,10 @@
 import { PHOTO_EXTENSION_ORDER, PHOTOS, PHOTO_DIR, type PhotoKey } from '@/data/birthdayConfig'
+import { assetUrl } from '@/utils/paths'
 
 /** Candidate URLs for a photo, in the order the loader tries them. */
 export function photoCandidates(key: PhotoKey): string[] {
   const base = PHOTOS[key]
-  return PHOTO_EXTENSION_ORDER.map((ext) => `${PHOTO_DIR}/${base}.${ext}`)
+  return PHOTO_EXTENSION_ORDER.map((ext) => assetUrl(`${PHOTO_DIR}/${base}.${ext}`))
 }
 
 export const photoLabel = (key: PhotoKey) => `${PHOTO_DIR}/${PHOTOS[key]}.jpg`

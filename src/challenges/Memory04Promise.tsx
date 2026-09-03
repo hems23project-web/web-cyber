@@ -1,5 +1,6 @@
 import { ChallengeShell } from './ChallengeShell'
 import { DataClue, DomComment } from '@/components/ui/DomComment'
+import { assetUrl } from '@/utils/paths'
 
 /**
  * MEMORY 04 // THE PROMISE
@@ -97,7 +98,7 @@ export function Memory04Promise() {
             </div>
           </div>
 
-          <a className="attachment mono" href="/records/p-04.stamp" target="_blank" rel="noreferrer">
+          <a className="attachment mono" href={assetUrl('/records/p-04.stamp')} target="_blank" rel="noreferrer">
             <span className="attachment__icon" aria-hidden="true">
               ▤
             </span>

@@ -27,6 +27,10 @@ function stripRepoNotes(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Relative base: the same bundle then works at a domain root AND under a
+  // sub-path (e.g. GitHub Pages' https://user.github.io/repo/), so the deploy
+  // target can change without a rebuild.
+  base: './',
   plugins: [react(), stripRepoNotes()],
   resolve: {
     alias: {

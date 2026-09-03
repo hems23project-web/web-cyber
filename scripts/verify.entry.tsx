@@ -286,6 +286,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import App from '@/App'
 import { buildQr } from '@/utils/qr'
 import { isLocalOrigin } from '@/components/QrPanel'
+import { assetUrl } from '@/utils/paths'
+import { photoCandidates, photoLabel } from '@/utils/format'
+import { readFileSync as fs0Read } from 'node:fs'
+
+const fs0 = { readFileSync: fs0Read }
 
 const rootEl = document.getElementById('root')!
 let root: Root
@@ -784,33 +789,65 @@ async function run() {
   eq('route table stores BLR reversed', reverse(blr?.stored_name ?? ''), 'BANGALORE')
   check('route table never prints the flag', !(await (await fetch('http://localhost:5173/records/route-table.json')).text()).includes('FLAG{BANGALORE'))
 
+  section('B22b · deploy-path portability')
+  // One bundle has to work at a domain root AND under a sub-path such as
+  // GitHub Pages' https://user.github.io/repo/ — otherwise the clue files 404
+  // and three of the seven memories become silently unsolvable.
+  check('site-relative paths resolve through the deployed base', assetUrl('/archive/index.txt').endsWith('archive/index.txt'))
+  check('a path without a leading slash resolves too', assetUrl('photos/ilp.jpg').endsWith('photos/ilp.jpg'))
+  check('no double slashes are produced', !assetUrl('/records/route-table.json').includes('//'))
+  check('photo candidates go through the same resolver', photoCandidates('ilp')[0].endsWith('photos/ilp.jpg'))
+  check('photo labels stay absolute — they are a displayed clue', photoLabel('ilp') === '/photos/ilp.jpg')
+  const portableHtml = fs0.readFileSync('dist/index.html', 'utf8')
+  check('the built page references its assets relatively', /src="\.\/static\//.test(portableHtml) && /href="\.\/favicon\.svg"/.test(portableHtml))
+  check('the built page has no root-absolute asset refs', !/(?:src|href)="\/(?:static|favicon)/.test(portableHtml))
+
   section('B23 · the shipped bundle does not leak flags')
   const fs = await import('node:fs')
-  const assets = fs.readdirSync('dist/assets').filter((f: string) => f.endsWith('.js') || f.endsWith('.css'))
+
+  const walk = (dir: string): string[] =>
+    fs
+      .readdirSync(dir, { withFileTypes: true })
+      .flatMap((e: { name: string; isDirectory: () => boolean }) =>
+        e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`],
+      )
+
+  // Scan EVERYTHING that ships, not one hard-coded folder. This used to read
+  // `dist/assets` only; when the bundle moved to `dist/static` that directory
+  // came back empty and every check below passed without scanning a single
+  // byte. The two guards underneath exist so that can never happen silently.
+  const shipped = walk('dist').filter((f: string) =>
+    /\.(js|mjs|css|html|txt|json|log|stamp|svg)$/.test(f),
+  )
+  check('the build produced a JS bundle to scan', shipped.some((f: string) => f.endsWith('.js')), shipped.join(', '))
+  check('the shipped payload is not empty', shipped.length >= 5, `${shipped.length} files: ${shipped.join(', ')}`)
+
   let leak = 0
-  for (const f of assets) {
-    const src = fs.readFileSync(`dist/assets/${f}`, 'utf8')
+  for (const f of shipped) {
+    const src = fs.readFileSync(f, 'utf8')
     for (const flag of Object.values(EXPECTED_FLAGS)) {
       if (src.includes(flag)) {
         leak++
-        fail(`${flag} found literally in dist/assets/${f}`)
+        fail(`${flag} found literally in ${f}`)
       }
     }
     for (const ans of Object.values(EXPECTED_CANONICAL)) {
       const token = ans.toUpperCase().replace(/\s+/g, '_')
       if (src.includes(`FLAG{${token}}`)) {
         leak++
-        fail(`FLAG{${token}} found in dist/assets/${f}`)
+        fail(`FLAG{${token}} found in ${f}`)
       }
     }
   }
-  check('no FLAG{…} literal survives into the build', leak === 0, `${assets.length} asset files scanned`)
+  check('no FLAG{…} literal survives into the build', leak === 0, `${shipped.length} shipped files scanned`)
+
   const indexHtml = fs.readFileSync('dist/index.html', 'utf8')
   check('index.html has the recon comment', indexHtml.includes('/archive/index.txt'))
   check('index.html does not contain a flag', !indexHtml.includes('FLAG{'))
 
   // The punchline of MEMORY 06 must not be greppable either.
-  const bundle = assets.map((f: string) => fs.readFileSync(`dist/assets/${f}`, 'utf8')).join('\n')
+  const bundle = shipped.map((f: string) => fs.readFileSync(f, 'utf8')).join('\n')
+  check('the leak scan really did read the payload', bundle.length > 100_000, `${bundle.length} chars`)
   // FLAG{ } is legitimately rendered as the submit field's prefix/suffix, and
   // format templates like FLAG{CITY_DD_MM_YYYY} are meant to be there. What must
   // never survive is a FLAG{…} whose body is one of the real answers.
@@ -820,18 +857,13 @@ async function run() {
   )
   const realLeak = bundleFlags.filter((f) => answerTokens.includes(f.slice(5, -1)))
   check('no real FLAG{…} survives into the bundle', realLeak.length === 0, realLeak.join(', '))
-  console.log(`  \x1b[2m(bundle contains ${bundleFlags.length} template flags: ${[...new Set(bundleFlags)].slice(0, 6).join(' ')}…)\x1b[0m`)
+  console.log(`  \x1b[2m(scanned ${shipped.length} shipped files, ${bundle.length.toLocaleString('en-US')} chars; ${bundleFlags.length} template flags present)\x1b[0m`)
   check('the MEMORY 06 punchline is not greppable', !/big[ _]butt/i.test(bundle) && !/crooked[ _]teeth/i.test(bundle))
   check('the sealed answers are not greppable in snake case', !Object.values(EXPECTED_FLAGS).some((f) => bundle.includes(f.slice(5, -1))))
 
   // Neither in the shipped source tree (in case the repo is ever read).
-  const walk = (dir: string): string[] =>
-    fs
-      .readdirSync(dir, { withFileTypes: true })
-      .flatMap((e: { name: string; isDirectory: () => boolean }) =>
-        e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`],
-      )
   const srcFiles = walk('src').filter((f: string) => /\.(ts|tsx|css)$/.test(f))
+  check('the source tree was walked', srcFiles.length > 20, `${srcFiles.length} files`)
   const srcLeak = srcFiles.filter((f: string) => {
     const body = fs.readFileSync(f, 'utf8')
     return Object.values(EXPECTED_FLAGS).some((flag) => body.includes(flag))

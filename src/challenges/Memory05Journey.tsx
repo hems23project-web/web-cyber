@@ -1,6 +1,7 @@
 import { ChallengeShell } from './ChallengeShell'
 import { DataClue } from '@/components/ui/DomComment'
 import { PLACES } from '@/data/birthdayConfig'
+import { assetUrl } from '@/utils/paths'
 
 /**
  * MEMORY 05 // THE JOURNEY
@@ -75,7 +76,7 @@ export function Memory05Journey() {
             <dd className="mono faint">eventually</dd>
           </dl>
 
-          <a className="attachment mono" href="/records/route-table.json" target="_blank" rel="noreferrer">
+          <a className="attachment mono" href={assetUrl('/records/route-table.json')} target="_blank" rel="noreferrer">
             <span className="attachment__icon" aria-hidden="true">
               ▤
             </span>

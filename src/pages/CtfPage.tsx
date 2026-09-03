@@ -15,6 +15,7 @@ import { useGame } from '@/hooks/useGame'
 import { CHALLENGE_BY_ID, TOTAL_FRAGMENTS, type ChallengeId } from '@/data/challenges'
 import { NICKNAME, RECIPIENT_NAME } from '@/data/birthdayConfig'
 import { sfx } from '@/utils/sound'
+import { assetUrl } from '@/utils/paths'
 
 const VIEWS: Record<ChallengeId, ComponentType> = {
   mem01: Memory01Archive,
@@ -157,7 +158,7 @@ export function CtfPage() {
                         to.
                       </p>
                       <p className="mono">
-                        <a className="hub__link" href="/robots.txt" target="_blank" rel="noreferrer">
+                        <a className="hub__link" href={assetUrl('/robots.txt')} target="_blank" rel="noreferrer">
                           /robots.txt
                         </a>{' '}
                         is a reasonable first move. it is not empty.
@@ -212,12 +213,12 @@ export function CtfPage() {
             <div className="panel-body">
               <ul className="sysfiles__list mono">
                 {[
-                  { href: '/robots.txt', label: '/robots.txt' },
-                  { href: '/archive/index.txt', label: '/archive/index.txt' },
-                  { href: '/archive/manifest.json', label: '/archive/manifest.json' },
-                  { href: '/archive/ilp-session-01.log', label: '/archive/ilp-session-01.log' },
-                  { href: '/records/p-04.stamp', label: '/records/p-04.stamp' },
-                  { href: '/records/route-table.json', label: '/records/route-table.json' },
+                  { href: assetUrl('/robots.txt'), label: '/robots.txt' },
+                  { href: assetUrl('/archive/index.txt'), label: '/archive/index.txt' },
+                  { href: assetUrl('/archive/manifest.json'), label: '/archive/manifest.json' },
+                  { href: assetUrl('/archive/ilp-session-01.log'), label: '/archive/ilp-session-01.log' },
+                  { href: assetUrl('/records/p-04.stamp'), label: '/records/p-04.stamp' },
+                  { href: assetUrl('/records/route-table.json'), label: '/records/route-table.json' },
                 ].map((f) => (
                   <li key={f.href}>
                     <a href={f.href} target="_blank" rel="noreferrer">
