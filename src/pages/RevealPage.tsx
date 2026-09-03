@@ -84,7 +84,7 @@ export function RevealPage() {
       <section className="reveal__section shell" id="gallery">
         <SectionHeading
           label={REVEAL.sectionGallery}
-          sub="drop your own files into public/photos/ — the exact filenames are listed in public/photos/README.md"
+          sub={REVEAL.gallerySub}
         />
         <div className="gallery">
           {(Object.keys(PHOTOS) as PhotoKey[]).map((key, i) => (

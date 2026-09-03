@@ -304,6 +304,8 @@ export const REVEAL = {
 
   sectionTimeline: 'THE RECORD, IN ORDER',
   sectionGallery: 'ATTACHED EVIDENCE',
+  /** Under the gallery heading. In-voice: no build instructions on a gift. */
+  gallerySub: 'recovered from the archive, in the order it happened.',
   sectionVulnerabilities: 'SECURITY AUDIT // FINAL REPORT',
 
   auditConclusion: 'Subject is highly exploitable.',
