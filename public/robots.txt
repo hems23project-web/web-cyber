@@ -1,0 +1,15 @@
+# Nothing here is indexed. Everything here is for one person.
+#
+# If you are that person: you found this on purpose.
+#
+User-agent: *
+Disallow: /
+
+# ---------------------------------------------------------------------------
+# archive index (readable)
+# ---------------------------------------------------------------------------
+# /archive/index.txt          -> where to start
+# /archive/ilp-session-01.log -> MEMORY 01 source material
+# /records/p-04.stamp         -> MEMORY 04 attachment
+# /records/route-table.json   -> MEMORY 05 attachment
+# ---------------------------------------------------------------------------

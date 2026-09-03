@@ -1,0 +1,153 @@
+/* =============================================================================
+ * tokens.css — the whole palette, type scale and motion vocabulary.
+ * =============================================================================
+ * Four phases share these tokens:
+ *   phase 1  landing  — warm, premium, romantic (dark plum, cream, rose)
+ *   phase 2  ctf      — near-black terminal, restrained rose
+ *   phase 3  mia      — terminal + a cooler signal tone
+ *   phase 4  reveal   — warm blush, serif, gold
+ * ========================================================================== */
+
+:root {
+  /* ---- surfaces -------------------------------------------------------- */
+  --ink-900: #07060a;
+  --ink-850: #0b0910;
+  --ink-800: #100c14;
+  --ink-700: #17121c;
+  --ink-600: #201a26;
+  --ink-500: #2c2433;
+  --ink-400: #3d3346;
+
+  --plum-900: #140a11;
+  --plum-800: #1b0e16;
+  --plum-700: #251320;
+
+  /* ---- text ------------------------------------------------------------ */
+  --cream: #f7ece4;
+  --cream-dim: #ddcdc4;
+  --cream-faint: #a89a94;
+  --ash: #7d7480;
+  --ash-dim: #5b5460;
+
+  /* ---- accents --------------------------------------------------------- */
+  --rose: #e8556d;
+  --rose-bright: #ff7088;
+  --rose-deep: #a32a45;
+  --rose-soft: #f2a0ae;
+  --blush: #ffd9de;
+
+  --gold: #e3b183;
+  --gold-bright: #f6d3a8;
+  --amber: #d99a4e;
+
+  --signal: #7fd4d0; /* M.I.A. only — cool, restrained */
+  --signal-dim: #4a8f8d;
+
+  --ok: #7fd08a;
+  --warn: #e0b252;
+  --err: #e2636f;
+
+  /* ---- type ------------------------------------------------------------ */
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-ui: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --fs-2xs: 0.625rem;
+  --fs-xs: 0.6875rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: clamp(2.2rem, 7vw, 4rem);
+  --fs-hero: clamp(2.75rem, 12vw, 8.5rem);
+
+  /* ---- space ----------------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4.5rem;
+  --sp-9: 7rem;
+
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 14px;
+
+  --shell: 1180px;
+  --shell-narrow: 820px;
+
+  /* ---- motion ---------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 140ms;
+  --t-med: 320ms;
+  --t-slow: 700ms;
+
+  /* ---- effects --------------------------------------------------------- */
+  --glow-rose: 0 0 24px rgba(232, 85, 109, 0.28);
+  --glow-soft: 0 0 40px rgba(232, 85, 109, 0.12);
+  --shadow-panel: 0 18px 50px -24px rgba(0, 0, 0, 0.9);
+  --hairline: 1px solid rgba(247, 236, 228, 0.09);
+  --hairline-rose: 1px solid rgba(232, 85, 109, 0.24);
+}
+
+/* Phase-scoped overrides. Applied on a wrapper element, not <html>. */
+.theme-warm {
+  --bg-a: var(--plum-900);
+  --bg-b: var(--ink-900);
+  --fg: var(--cream);
+  --fg-dim: var(--cream-dim);
+  --fg-faint: var(--cream-faint);
+  --accent: var(--rose);
+  --accent-2: var(--gold);
+  --panel: rgba(28, 17, 25, 0.72);
+  --panel-solid: #1a1017;
+  --line: rgba(247, 236, 228, 0.1);
+}
+
+.theme-ctf {
+  --bg-a: #08090c;
+  --bg-b: #05060a;
+  --fg: #dfe4e8;
+  --fg-dim: #a3abb4;
+  --fg-faint: #6d757e;
+  --accent: var(--rose);
+  --accent-2: var(--signal);
+  --panel: rgba(16, 18, 23, 0.86);
+  --panel-solid: #101218;
+  --line: rgba(223, 228, 232, 0.11);
+}
+
+.theme-light {
+  --bg-a: #fff6f2;
+  --bg-b: #ffe9e6;
+  --fg: #2a1a20;
+  --fg-dim: #5d454e;
+  --fg-faint: #8a7079;
+  --accent: var(--rose-deep);
+  --accent-2: var(--amber);
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-solid: #fffaf7;
+  --line: rgba(42, 26, 32, 0.12);
+}
+
+/* Respect the OS preference, and the in-app toggle. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 0ms;
+    --t-med: 0ms;
+    --t-slow: 0ms;
+  }
+}
+
+.reduce-motion,
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}

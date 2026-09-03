@@ -1,0 +1,33 @@
+{
+  "file": "records/route-table.json",
+  "purpose": "carrier route table for RECORD 05 // THE JOURNEY",
+  "convention_note": "City names in this table are stored REVERSED. The system was configured by someone who enjoys this.",
+  "worked_example": {
+    "code": "TRV",
+    "stored": "MURDNAVIRT",
+    "actual": "TRIVANDRUM",
+    "comment": "you already know this one. that is the point of an example."
+  },
+  "destinations": [
+    { "code": "TRV", "stored_name": "MURDNAVIRT", "role": "ORIGIN" },
+    { "code": "BLR", "stored_name": "EROLAGNAB", "role": "DESTINATION // RECORD 05" },
+    { "code": "COK", "stored_name": "IHCOK", "role": "UNUSED" },
+    { "code": "MAA", "stored_name": "IANNEHC", "role": "UNUSED" }
+  ],
+  "legs": [
+    {
+      "leg": 1,
+      "from": "TRV",
+      "to": "BLR",
+      "departure_date_encoded": "MjAyNi0wMi0xNA==",
+      "departure_date_encoding": "base64 -> ISO yyyy-mm-dd",
+      "note": "the date the world buys flowers. neither of you bought flowers."
+    }
+  ],
+  "assembly_rule": {
+    "flag": "FLAG{ <CITY>_<DD>_<MM>_<YYYY> }",
+    "city": "destination city of leg 1, de-reversed, UPPER CASE",
+    "date": "departure_date_encoded, re-ordered from ISO (yyyy-mm-dd) to DD_MM_YYYY",
+    "comment": "location + date. that is the whole memory."
+  }
+}

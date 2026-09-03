@@ -1,0 +1,59 @@
+================================================================================
+ ILP SESSION ARCHIVE  --  RECORD 01
+ file:      ilp-session-01.log
+ recovered: partial
+ integrity: 61%  (some fields were never meant to be printed)
+================================================================================
+
+[00:00:00] boot memory-core ......................... OK
+[00:00:01] mount fragment 01/06 ..................... OK
+[00:00:01] label .................................... "WHERE IT BEGAN"
+
+--------------------------------------------------------------------------------
+ SESSION HEADER
+--------------------------------------------------------------------------------
+ program_code ..... ILP
+ program_name ..... [FIELD SUPPRESSED -- appears in the interface]
+ cohort_size ...... redacted
+ duration ......... months, felt like weeks
+
+--------------------------------------------------------------------------------
+ LOCATION BLOCK   <<< the part the interface refuses to render >>>
+--------------------------------------------------------------------------------
+ site_code ........ ILP
+ city_official .... THIRUVANANTHAPURAM
+ city_common ...... TRIVANDRUM        <-- the name everyone actually uses
+ state ............ KERALA
+ coordinates ...... withheld on purpose
+ weather .......... it would rain. it always rained.
+
+--------------------------------------------------------------------------------
+ FLAG CONSTRUCTION RULE  (record 01 only)
+--------------------------------------------------------------------------------
+ The system stores this memory as:
+
+     FLAG{ <CITY>_<SITE_CODE> }
+
+ where <CITY> is the COMMON city name from the LOCATION BLOCK above
+ (not the official one, not the state, not the coordinates)
+ and   <SITE_CODE> is the program code.
+
+ Both in UPPER CASE. Underscore between them. No spaces.
+
+--------------------------------------------------------------------------------
+ OPERATOR NOTE  (handwritten, scanned, badly)
+--------------------------------------------------------------------------------
+ "The page shows you a redacted box.
+  The box is a lie of omission, not a lie.
+  Everything you need was already transmitted --
+  you just have to look at what arrived instead of what was drawn."
+
+--------------------------------------------------------------------------------
+ ATTACHMENTS
+--------------------------------------------------------------------------------
+ none. this memory has no photo attached.
+ some of them do not need one.
+
+================================================================================
+ END OF RECORD 01
+================================================================================
