@@ -196,7 +196,7 @@ npm run verify
 
 A jsdom-driven end-to-end harness
 ([`scripts/verify.entry.tsx`](scripts/verify.entry.tsx)) boots the real app and
-plays it: **314 assertions**, currently all passing. It covers
+plays it: **317 assertions**, currently all passing. It covers
 
 - the full solve path, memory by memory, including the multi-stage final core;
 - hint tracking, wrong-answer messaging, persistence across a simulated refresh;

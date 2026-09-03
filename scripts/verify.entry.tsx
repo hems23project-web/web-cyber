@@ -725,6 +725,22 @@ async function run() {
   check('settings popover opened', text().includes('RESET GAME'))
   check('sound toggle present', text().includes('SOUND'))
   check('reduce-motion toggle present', text().includes('REDUCE MOTION'))
+
+  // The toggle has to reach the whole document, not just the ambient layer —
+  // otherwise glitch, caret, shake and the typewriters keep moving.
+  const motionRow = byText('.settings__row', 'REDUCE MOTION')
+  const motionBtn = motionRow?.querySelector('button') ?? null
+  await click(motionBtn, 'reduce-motion toggle')
+  await tick(120)
+  check('reduce-motion is applied to <html>', document.documentElement.classList.contains('reduce-motion'))
+  check(
+    'the toggle reports its state',
+    byText('.settings__row', 'REDUCE MOTION')?.querySelector('button')?.getAttribute('aria-pressed') === 'true',
+  )
+  await click(byText('.settings__row', 'REDUCE MOTION')?.querySelector('button') ?? null, 'reduce-motion toggle back')
+  await tick(120)
+  check('reduce-motion can be turned back off', !document.documentElement.classList.contains('reduce-motion'))
+
   await click(byText('button', 'RESET GAME'), 'reset')
   await tick(120)
   check('reset asks for confirmation', text().includes('There is no undo'))

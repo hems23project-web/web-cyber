@@ -13,6 +13,12 @@ function Router() {
     if (phase === 'reveal' && !state.revealUnlocked) setPhase('ctf')
   }, [phase, state.revealUnlocked, setPhase])
 
+  // Reduce-motion is a document-wide switch: every animation, transition and
+  // typewriter in the app keys off `.reduce-motion` on <html>.
+  useEffect(() => {
+    document.documentElement.classList.toggle('reduce-motion', state.reduceMotion)
+  }, [state.reduceMotion])
+
   const view =
     phase === 'landing' ? (
       <LandingPage />

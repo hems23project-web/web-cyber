@@ -47,6 +47,22 @@ export interface PersistedState {
   visited: Phase[]
 }
 
+/**
+ * Honour the OS accessibility preference on first load. Once the player has
+ * used the in-app toggle their choice is persisted and wins from then on.
+ */
+function prefersReducedMotion(): boolean {
+  try {
+    return (
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches === true
+    )
+  } catch {
+    return false
+  }
+}
+
 const initialState = (): PersistedState => ({
   version: STATE_VERSION,
   phase: 'landing',
@@ -60,7 +76,7 @@ const initialState = (): PersistedState => ({
   finishedAt: null,
   revealUnlocked: false,
   sound: false,
-  reduceMotion: false,
+  reduceMotion: prefersReducedMotion(),
   visited: [],
 })
 
