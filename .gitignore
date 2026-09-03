@@ -19,6 +19,9 @@ yarn-error.log*
 # tsc incremental build info
 *.tsbuildinfo
 
-# deployment packaging (generated, never committed)
+# deployment packaging scratch space
 .deploy
-mi-birthday-site.zip
+
+# mi-birthday-site.zip IS committed on purpose: it is the ready-to-drop build
+# handed to whoever deploys this, and they should not need a toolchain to get it.
+# Regenerate with:  npm run build && ./scripts/package.sh

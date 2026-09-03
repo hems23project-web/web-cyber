@@ -1,0 +1,15 @@
+# Netlify reads this automatically when you import the repo, so there is
+# nothing to type into the dashboard: pick the repo, click Deploy.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# A birthday gift should not end up in a search engine.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Referrer-Policy = "no-referrer"
