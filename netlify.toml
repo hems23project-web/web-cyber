@@ -1,0 +1,11 @@
+# Netlify reads this automatically when you import the repo, so there is
+# nothing to type into the dashboard: pick the repo, click Deploy.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Response headers live in public/_headers so they also apply to
+# drag-and-drop deploys, not just Git-connected ones.

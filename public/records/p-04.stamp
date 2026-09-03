@@ -1,0 +1,35 @@
+================================================================================
+ ATTACHMENT  --  RECORD 04  //  "THE PROMISE"
+ file:   p-04.stamp
+ type:   time-stamp fragment (shard C of 3)
+ note:   the interface holds shards A and B. this one had to be filed separately.
+================================================================================
+
+ shard C / numeral form ..... MMXXV
+
+ conversion table (only the values you need):
+     I = 1     V = 5     X = 10     L = 50     C = 100     D = 500     M = 1000
+
+ shard C / decimal form ..... ____   (you do the arithmetic)
+
+--------------------------------------------------------------------------------
+ ASSEMBLY RULE  (record 04 only)
+--------------------------------------------------------------------------------
+     shard A ........ day      (interface, shown as a hex literal)
+     shard B ........ month    (interface, hidden in the markup -- not the pixels)
+     shard C ........ year     (this file, roman numerals)
+
+     FLAG{ <DAY>_<MONTH>_<YEAR> }
+
+     DAY and MONTH are two digits. YEAR is four digits. Underscores between.
+
+--------------------------------------------------------------------------------
+ CONTEXT
+--------------------------------------------------------------------------------
+ This is not a birthday.
+ This is not an anniversary of the ordinary sort.
+ One person asked a question on this date and the answer was yes.
+
+================================================================================
+ END OF ATTACHMENT p-04.stamp
+================================================================================

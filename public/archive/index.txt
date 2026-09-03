@@ -1,0 +1,49 @@
+================================================================================
+ MI // BIRTHDAY PROTOCOL  --  ARCHIVE INDEX
+================================================================================
+ cleared for:  MI (MITHUN)
+ clearance:    FULL
+ note:         This archive was assembled by someone who does not trust
+               databases and does trust you.
+
+--------------------------------------------------------------------------------
+ WHERE YOU ARE
+--------------------------------------------------------------------------------
+ The interface you are looking at renders only part of what the system holds.
+ Everything below exists whether or not the page chooses to show it.
+
+--------------------------------------------------------------------------------
+ ARCHIVE CONTENTS
+--------------------------------------------------------------------------------
+  /archive/index.txt              this file
+  /archive/manifest.json          fragment manifest (metadata only)
+  /archive/ilp-session-01.log     MEMORY 01 -- session record, partially redacted
+
+  /records/p-04.stamp             MEMORY 04 -- attachment for the sealed record
+  /records/route-table.json       MEMORY 05 -- carrier route table
+
+--------------------------------------------------------------------------------
+ HOW THIS SYSTEM HIDES THINGS
+--------------------------------------------------------------------------------
+  1. HTML comments and data-* attributes.  (view-source, or the Elements panel)
+  2. Static files under /archive/ and /records/.  (this file is one of them)
+  3. Encoded fragments: base64, hex, roman numerals, A1Z26, ROT13, ASCII decimal.
+  4. A runtime object attached to `window`.  (open the DevTools console)
+  5. M.I.A.  (she knows more than she says, and less than she implies)
+
+ There is a DECODER in the system toolbar. Use it. It handles 3, and it will
+ try every method at once if you ask it to.
+
+--------------------------------------------------------------------------------
+ FLAG FORMAT
+--------------------------------------------------------------------------------
+  FLAG{ANSWER_IN_UPPER_SNAKE_CASE}
+
+  Spaces, slashes and dashes in an answer become underscores.
+  Dates use DD_MM_YYYY.
+
+--------------------------------------------------------------------------------
+ LAST LINE
+--------------------------------------------------------------------------------
+ You are not solving for points. You already know that, don't you.
+================================================================================

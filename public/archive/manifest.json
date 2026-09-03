@@ -1,0 +1,22 @@
+{
+  "protocol": "BIRTHDAY",
+  "subject": {
+    "name": "MITHUN",
+    "codename": "MI",
+    "id": "MI-07092003"
+  },
+  "assembled_by": "someone who thought this was a reasonable birthday present",
+  "fragments_detected": 6,
+  "fragments_sealed": 1,
+  "integrity": "DEGRADED",
+  "note": "Metadata only. Payloads are held in the interface and in the record files.",
+  "records": [
+    { "index": 1, "label": "WHERE IT BEGAN", "state": "REDACTED", "source": "/archive/ilp-session-01.log" },
+    { "index": 2, "label": "THE FIRST DATE", "state": "ENCODED", "source": "runtime // window.__ARCHIVE_02__" },
+    { "index": 3, "label": "THE ISLAND", "state": "GUARDED", "source": "M.I.A. // unlock after record 2" },
+    { "index": 4, "label": "THE PROMISE", "state": "SEALED", "source": "/records/p-04.stamp" },
+    { "index": 5, "label": "THE JOURNEY", "state": "ENCODED", "source": "/records/route-table.json" },
+    { "index": 6, "label": "SECURITY AUDIT", "state": "CLASSIFIED", "source": "interface // audit panel" },
+    { "index": 7, "label": "IDENTITY OF SUBJECT", "state": "LOCKED", "source": "requires records 1-6" }
+  ]
+}
