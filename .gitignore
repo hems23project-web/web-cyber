@@ -19,6 +19,10 @@ yarn-error.log*
 # tsc incremental build info
 *.tsbuildinfo
 
+# THE SOLVE GUIDE. Full spoilers for the entire game. Gitignored so it can
+# never be committed, deployed, or linked by accident.
+WALKTHROUGH.md
+
 # deployment packaging scratch space
 .deploy
 
