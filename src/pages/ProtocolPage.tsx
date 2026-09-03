@@ -5,6 +5,7 @@ import { PROTOCOL, RECIPIENT_NAME } from '@/data/birthdayConfig'
 import { useTypewriter } from '@/hooks/useTypewriter'
 import { DotMatrix } from '@/components/ui/DotMatrix'
 import { sfx } from '@/utils/sound'
+import { BackLink } from '@/components/ui/BackLink'
 
 /**
  * Phase 1 → 2. The birthday page hands over to the system.
@@ -33,6 +34,7 @@ export function ProtocolPage() {
   return (
     <div className="protocol theme-ctf">
       <Ambient circuit={false} glow scan grain vignette />
+      <BackLink />
 
       <main className="protocol__main shell shell-narrow">
         <div className="protocol__card panel ticked">

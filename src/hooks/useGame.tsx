@@ -27,6 +27,13 @@ export type Phase = 'landing' | 'protocol' | 'ctf' | 'reveal'
 export type AiCore = 'LOCKED' | 'ONLINE' | 'UNLOCKED'
 
 const STORAGE_KEY = 'mi-birthday-protocol:v1'
+
+/**
+ * Per-tab marker. sessionStorage survives a reload but not a new tab, which is
+ * exactly the difference between "refreshed the page" and "opened the link
+ * again". See the bootstrap effect in GameProvider.
+ */
+export const SESSION_FLAG = 'mi-birthday-protocol:tab'
 const STATE_VERSION = 1
 const CHAT_CAP = 90
 
@@ -164,6 +171,24 @@ export function GameProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     save(state)
   }, [state])
+
+  /* fresh visit vs refresh ------------------------------------------------
+   * Reloading the tab keeps your place — that is a hard requirement. But
+   * opening the link again (a new tab, a new day, a new person) must always
+   * begin at the landing page, because that page is the gift's first
+   * impression and the start of its emotional arc. Progress in localStorage is
+   * never touched here: the *view* restarts, the recovered memories don't.
+   */
+  useEffect(() => {
+    try {
+      if (!window.sessionStorage.getItem(SESSION_FLAG)) {
+        window.sessionStorage.setItem(SESSION_FLAG, '1')
+        setState((prev) => (prev.phase === 'landing' ? prev : { ...prev, phase: 'landing' }))
+      }
+    } catch {
+      /* storage unavailable: fall back to the persisted phase */
+    }
+  }, [])
 
   useEffect(() => {
     setSoundEnabled(state.sound)

@@ -4,6 +4,7 @@ import { HUD, SUBJECT_ID } from '@/data/birthdayConfig'
 import { FlagSubmit } from './FlagSubmit'
 import { SettingsMenu } from './SettingsMenu'
 import { sfx } from '@/utils/sound'
+import { BackLink } from '@/components/ui/BackLink'
 
 /**
  * Hud — the small persistent readout that lives at the top of the CTF.
@@ -36,6 +37,7 @@ export function Hud() {
   return (
     <header className={`hud ${pulse ? 'hud--pulse' : ''}`}>
       <div className="hud__bar">
+        <BackLink inline />
         <div className="hud__id">
           <span className="hud__title mono">{HUD.title}</span>
           <span className="hud__sub mono faint">{SUBJECT_ID}</span>

@@ -286,6 +286,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import App from '@/App'
 import { buildQr } from '@/utils/qr'
 import { isLocalOrigin } from '@/components/QrPanel'
+import { SESSION_FLAG } from '@/hooks/useGame'
 import { assetUrl } from '@/utils/paths'
 import { photoCandidates, photoLabel } from '@/utils/format'
 import { readFileSync as fs0Read } from 'node:fs'
@@ -731,6 +732,53 @@ async function run() {
   await typeAndSubmit('.hud__drawer .flagsubmit__input', 'FLAG{MUNROE_ISLANDS}')
   await tick(120)
   check('duplicate is reported, not re-awarded', text().includes('Already recovered.'))
+
+  section('B25 · stepping back, and opening the link again')
+  // One step back through the phases, touching nothing else.
+  await click(q('.backlink'), 'back from the system')
+  await tick(120)
+  check('back from the system lands on the briefing', Boolean(q('.protocol')))
+  await click(q('.backlink'), 'back from the briefing')
+  await tick(120)
+  check('back from the briefing lands on the landing page', Boolean(q('.landing')))
+  check('the landing page offers no back button', q('.backlink') === null)
+  await tick(400) // the CTA rises in ~260ms after mount
+  await click(byText('button', 'BEGIN THE ADVENTURE'), 'begin again')
+  await waitFor(() => Boolean(byText('button', 'ENTER SYSTEM')), 'boot log to finish again')
+  await click(byText('button', 'ENTER SYSTEM'), 'enter again')
+  await tick(200)
+  check('forward navigation still works after going back', Boolean(q('.hud')))
+
+  // A brand-new visit must open at the landing page — with progress intact.
+  const savedBefore = w.localStorage.getItem('mi-birthday-protocol:v1') ?? ''
+  check('there IS saved progress to preserve', savedBefore.includes('mem01'))
+  root.unmount()
+  w.sessionStorage.removeItem(SESSION_FLAG)
+  const host = document.getElementById('root')!
+  root = createRoot(host)
+  await act(async () => {
+    root.render(<App />)
+  })
+  await tick(150)
+  check('a fresh visit opens at the landing page', Boolean(q('.landing')))
+  check(
+    'a fresh visit does not wipe progress',
+    (w.localStorage.getItem('mi-birthday-protocol:v1') ?? '').includes('mem01'),
+  )
+
+  // A reload in the same tab resumes exactly where you were: the tab's session
+  // flag is present, and localStorage holds the phase he was mid-game on.
+  const midGame = JSON.parse(w.localStorage.getItem('mi-birthday-protocol:v1') ?? '{}')
+  midGame.phase = 'ctf'
+  w.localStorage.setItem('mi-birthday-protocol:v1', JSON.stringify(midGame))
+  w.sessionStorage.setItem(SESSION_FLAG, '1')
+  root.unmount()
+  root = createRoot(host)
+  await act(async () => {
+    root.render(<App />)
+  })
+  await tick(150)
+  check('a reload resumes the saved phase', Boolean(q('.hud')))
 
   section('B21 · hidden RESET GAME')
   await click(q('.settings__btn'), 'settings gear')

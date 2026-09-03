@@ -578,3 +578,28 @@ img {
     animation: none !important;
   }
 }
+
+/* one step back ----------------------------------------------------------- */
+.backlink {
+  position: fixed;
+  top: clamp(0.7rem, 2.5vw, 1.2rem);
+  left: clamp(0.8rem, 3vw, 1.6rem);
+  z-index: 70;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  opacity: 0.7;
+  transition: opacity var(--t-fast) ease;
+}
+.backlink:hover,
+.backlink:focus-visible {
+  opacity: 1;
+}
+.backlink--inline {
+  position: static;
+  padding-right: 0.6rem;
+  opacity: 0.8;
+}

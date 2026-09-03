@@ -120,6 +120,12 @@ anything** — flags, hints used, M.I.A.'s state and the reveal unlock all survi
 A hidden **RESET GAME** lives in the HUD settings menu (with a confirmation) so
 you can wipe state and play through it yourself.
 
+Two navigation rules, both covered by the harness: **refreshing the same tab
+resumes exactly where you were**, but **opening the link again in a new tab
+always starts at the landing page** — the view restarts, the recovered memories
+don't. And every phase except the landing offers a one-step back link
+(`← the briefing`, `← the system`, `← the ending`) that never touches progress.
+
 ---
 
 ## 4. The seven memories
@@ -204,7 +210,7 @@ npm run verify
 
 A jsdom-driven end-to-end harness
 ([`scripts/verify.entry.tsx`](scripts/verify.entry.tsx)) boots the real app and
-plays it: **333 assertions**, currently all passing. It covers
+plays it: **341 assertions**, currently all passing. It covers
 
 - the full solve path, memory by memory, including the multi-stage final core;
 - hint tracking, wrong-answer messaging, persistence across a simulated refresh;

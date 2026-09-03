@@ -18,6 +18,7 @@ import {
 import { CHALLENGES, FRAGMENT_IDS, CHALLENGE_BY_ID, canonicalAnswer, type ChallengeId } from '@/data/challenges'
 import { buildFlag } from '@/utils/flags'
 import { sfx } from '@/utils/sound'
+import { BackLink } from '@/components/ui/BackLink'
 
 /** Phase 4 — the birthday letter. Warm, quiet, and entirely about him. */
 export function RevealPage() {
@@ -30,6 +31,7 @@ export function RevealPage() {
     <div className={`reveal theme-light ${state.reduceMotion ? 'reduce-motion' : ''}`}>
       <Ambient circuit={false} glow grain={false} vignette={false} className="reveal__ambient" />
       <Hearts />
+      <BackLink />
 
       {/* ------------------------------------------------------------ hero -- */}
       <section className="reveal__hero shell">
