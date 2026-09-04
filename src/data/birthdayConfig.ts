@@ -74,7 +74,7 @@ export const MEMORIES = {
   firstDate: 'Our first date was a tea date in the rain in Trivandrum.',
   temples: 'We loved going on temple dates in Trivandrum.',
   munroe: 'We went to Munroe Islands.',
-  bikes: 'We enjoy going on bike rides.',
+  talks: 'We have late night talks.',
   food: 'We are both very foodie.',
 } as const
 
@@ -154,7 +154,7 @@ export type PhotoKey =
   | 'temple01'
   | 'temple02'
   | 'munroe'
-  | 'bike'
+  | 'talks'
   | 'food'
   | 'proposal'
   | 'bangalore'
@@ -167,7 +167,7 @@ export const PHOTOS: Record<PhotoKey, string> = {
   temple01: 'temple-01',
   temple02: 'temple-02',
   munroe: 'munroe',
-  bike: 'bike',
+  talks: 'talks',
   food: 'food',
   proposal: 'proposal',
   bangalore: 'bangalore',
@@ -372,10 +372,10 @@ export const TIMELINE: TimelineEntry[] = [
   },
   {
     n: '05',
-    code: 'TWO WHEELS',
-    caption: 'Our bike rides.',
-    photo: 'bike',
-    sub: 'long roads, no destination',
+    code: 'LATE NIGHT TALKS',
+    caption: 'Our late night talks.',
+    photo: 'talks',
+    sub: 'the ones that never ended',
   },
   {
     n: '06',

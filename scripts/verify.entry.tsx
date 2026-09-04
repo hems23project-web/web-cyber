@@ -629,7 +629,7 @@ async function run() {
     'TEA + RAIN',
     'TEMPLE.exe',
     'MUNROE',
-    'TWO WHEELS',
+    'LATE NIGHT TALKS',
     'FOOD.exe',
     '27.09.2025',
     '14.02.2026',

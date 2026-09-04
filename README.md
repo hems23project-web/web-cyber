@@ -24,7 +24,7 @@ these are the personal touches.
 
 Put files with these **exact** names in [`public/photos/`](public/photos):
 
-`ilp` · `tea-rain` · `temple-01` · `temple-02` · `munroe` · `bike` · `food` ·
+`ilp` · `tea-rain` · `temple-01` · `temple-02` · `munroe` · `talks` · `food` ·
 `proposal` · `bangalore` · `birthday`
 
 `.jpg`, `.jpeg`, `.png` or `.webp` all work (tried in that order). A missing file
@@ -49,18 +49,13 @@ the timeline, not the flag.
 
 ### c) If you want a physical QR, make it offline
 
-The site deliberately shows **no QR code** — it was removed so the reveal stays
-purely about him. Make the QR with any external generator instead; the Nayuki
-demo (nayuki.io/page/qr-code-generator-library) is the good one because it lets
-you set the version, i.e. the number of boxes, directly. Encode the deployed
-address in UPPERCASE (`HTTPS://YOUR-SITE.NETLIFY.APP/`) — addresses are
-case-insensitive, and uppercase shrinks the grid from 37×37 to 25×25 at error
-correction L, or 29×29 at M.
-
-For embroidery: **M or higher**, black on white, quiet zone of at least 4
-modules, no logo, no rounded dots, no gradient. Then print at the final physical
-size, stitch a sample, and **scan the sample with three different phones**
-before committing to the real thing.
+The site deliberately shows **no QR code** — the reveal stays purely about him.
+If you ever want one, any external generator will do; the Nayuki demo
+(nayuki.io/page/qr-code-generator-library) is the useful one because it lets you
+set the version, i.e. the number of boxes, directly. Encode the deployed address
+in UPPERCASE (`HTTPS://YOUR-SITE.NETLIFY.APP/`) — addresses are case-insensitive,
+and uppercase shrinks the grid from 37×37 to 25×25 at error correction L, or
+29×29 at M. Keep it black on white with a white border of at least four modules.
 
 ---
 
