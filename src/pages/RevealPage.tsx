@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { Ambient } from '@/components/ui/Ambient'
 import { PhotoFrame } from '@/components/ui/PhotoFrame'
-import { QrPanel } from '@/components/QrPanel'
 import { useGame } from '@/hooks/useGame'
 import { useInView } from '@/hooks/useInView'
 import {
@@ -136,12 +135,6 @@ export function RevealPage() {
           and the one that was never a flag at all — <b>{DISPLAY_DATES.herBirthday}</b>, mine, which you have known
           for {RELATIONSHIP_LABEL.toLowerCase()} and have never once forgotten.
         </p>
-      </section>
-
-      {/* -------------------------------------------------------------- qr -- */}
-      <section className="reveal__section shell reveal__section--dark" id="qr">
-        <SectionHeading label="QR // FOR THE PHYSICAL PART" sub="print it, stitch it, hide it somewhere" />
-        <QrPanel />
       </section>
 
       {/* --------------------------------------------------------- closing -- */}

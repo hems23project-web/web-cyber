@@ -29,3 +29,7 @@ WALKTHROUGH.md
 # mi-birthday-site.zip IS committed on purpose: it is the ready-to-drop build
 # handed to whoever deploys this, and they should not need a toolchain to get it.
 # Regenerate with:  npm run build && ./scripts/package.sh
+
+# Standalone QR artifacts for printing/stitching. Delivered directly,
+# never part of the site or the repo.
+qr/

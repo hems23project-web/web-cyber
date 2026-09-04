@@ -284,8 +284,6 @@ check('no unrecovered answer is ever spoken by M.I.A.', leaks === 0, `${QUESTION
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import App from '@/App'
-import { buildQr } from '@/utils/qr'
-import { isLocalOrigin } from '@/components/QrPanel'
 import { SESSION_FLAG } from '@/hooks/useGame'
 import { assetUrl } from '@/utils/paths'
 import { photoCandidates, photoLabel } from '@/utils/format'
@@ -673,45 +671,6 @@ async function run() {
     check(`recap shows ${flag}`, text().includes(flag))
   }
   check('recap mentions her birthday 23.12.2003', text().includes('23.12.2003'))
-
-  section('B18 · QR generation')
-  const qr = await buildQr('https://example.com/mi')
-  eq('encodes the supplied URL', qr.value, 'https://example.com/mi')
-  check('usingFallback false when SITE_URL supplied', qr.usingFallback === false)
-  check('SVG has an xmlns', qr.svg.includes('xmlns="http://www.w3.org/2000/svg"'))
-  check('SVG is crispEdges (no anti-aliasing for the digitiser)', qr.svg.includes('shape-rendering="crispEdges"'))
-  check('SVG uses pure black on white', qr.svg.includes('#000000') && qr.svg.includes('#FFFFFF'))
-  check('SVG has no gradient', !qr.svg.toLowerCase().includes('gradient'))
-  check('SVG has a module path', /<path d="M/.test(qr.svg))
-  check('SVG carries a viewBox', /viewBox="0 0 \d+ \d+"/.test(qr.svg))
-  const qrFallback = await buildQr()
-  check('falls back to the current origin when SITE_URL is empty', qrFallback.usingFallback === true)
-  eq('fallback encodes the origin', qrFallback.value, 'http://localhost:5173')
-  const qrMargin = qrFallback.size
-  check(
-    'quiet zone of 8 modules is present on every side',
-    qrMargin > 21 + 2 * 8 && /<rect x="0" y="0" width="\d+" height="\d+" fill="#FFFFFF"/.test(qr.svg),
-    `${qrMargin} modules incl. margin`,
-  )
-  check('QR is square (no stretched modules for the digitiser)', /viewBox="0 0 (\d+) \1"/.test(qr.svg))
-  check('QR panel rendered on the reveal page', Boolean(q('.qrpanel')))
-  check('QR preview SVG injected', Boolean(q('.qrpanel__svg svg')))
-  check('DOWNLOAD QR SVG button', Boolean(byText('button', 'DOWNLOAD QR SVG')))
-  check('DOWNLOAD QR PNG button', Boolean(byText('button', 'DOWNLOAD QR PNG')))
-  check('warns that SITE_URL is empty while on a dev origin', text().includes('SITE_URL is empty'))
-  // Once deployed the fallback IS the right address, so the dev warning — which
-  // names a source file — must disappear from the gift.
-  check('a public origin is not treated as local', isLocalOrigin({ hostname: 'some-gift.netlify.app', port: '' }) === false)
-  check('an apex domain is not treated as local', isLocalOrigin({ hostname: 'birthday.example.com', port: '443' }) === false)
-  check('localhost is treated as local', isLocalOrigin({ hostname: 'localhost', port: '5173' }) === true)
-  check('a private IP is treated as local', isLocalOrigin({ hostname: '192.168.1.20', port: '' }) === true)
-  check('a sandbox preview port is treated as local', isLocalOrigin({ hostname: '4173-abc.e2b.app', port: '4173' }) === true)
-  check(
-    'developer note about embroidery testing',
-    text().includes('physically test the final stitched QR with multiple phones before production'),
-  )
-  check('embroidery checklist present', text().includes('EMBROIDERY / PRINT CHECKLIST'))
-  check('ECC level H stated', text().includes('LEVEL H'))
 
   section('B19 · navigation back into the system')
   await click(byText('button', 'BACK INTO THE SYSTEM'), 'back to ctf')

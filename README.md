@@ -37,19 +37,7 @@ Full table in [`public/photos/README.md`](public/photos/README.md).
 `public/photos/` is **not** gitignored — commit your photos so they deploy with
 the site.
 
-### b) Set `SITE_URL`
-
-Top of [`src/data/birthdayConfig.ts`](src/data/birthdayConfig.ts):
-
-```ts
-export const SITE_URL = ''   // ← paste the deployed address here
-```
-
-The QR code on the reveal page encodes this. While it's empty the QR falls back
-to whatever origin the page is currently served from (the page says so out loud).
-Set it once you know the final URL, then rebuild.
-
-### c) Check the timeline
+### b) Check the timeline
 
 Section 12 of the config, `TIMELINE` — nine entries, each with a date, a label,
 a line of copy and an optional photo. It's plain data; edit the words, reorder,
@@ -59,13 +47,20 @@ One thing worth knowing: the proposal date is **27/09/2025** everywhere in this
 build (that's what MEMORY 04 resolves to). If any timeline entry disagrees, fix
 the timeline, not the flag.
 
-### d) Test the QR before you embroider it
+### c) If you want a physical QR, make it offline
 
-The QR is generated with **error correction level H**, high contrast, a large
-quiet zone and no gradient/logo/distortion, so it survives stitching. Still:
-print it at the final physical size, stitch a sample, and **scan the sample**
-before committing to the real thing. Section 13 of the config (`QR`) holds the
-size, margin and level.
+The site deliberately shows **no QR code** — it was removed so the reveal stays
+purely about him. Make the QR with any external generator instead; the Nayuki
+demo (nayuki.io/page/qr-code-generator-library) is the good one because it lets
+you set the version, i.e. the number of boxes, directly. Encode the deployed
+address in UPPERCASE (`HTTPS://YOUR-SITE.NETLIFY.APP/`) — addresses are
+case-insensitive, and uppercase shrinks the grid from 37×37 to 25×25 at error
+correction L, or 29×29 at M.
+
+For embroidery: **M or higher**, black on white, quiet zone of at least 4
+modules, no logo, no rounded dots, no gradient. Then print at the final physical
+size, stitch a sample, and **scan the sample with three different phones**
+before committing to the real thing.
 
 ---
 
@@ -111,7 +106,7 @@ anything the browser fetches — go through `assetUrl()`.
 | **Landing** | Soft, romantic, handcrafted. Birthday message, a typewritten letter, one button. Deliberately *not* hacker-y. |
 | **Protocol** | The briefing boot sequence — the moment the tone shifts. |
 | **CTF** | The HUD (memories recovered, AI core status, global flag submit, progress) plus the seven memory cards, M.I.A.'s terminal, the decoder toolbox and the system files. |
-| **Reveal** | Earned only after all six memories + the final core. Photo gallery, the romantic timeline, the audit report, the QR, and the birthday reveal. |
+| **Reveal** | Earned only after all six memories + the final core. Photo gallery, the romantic timeline, the audit report and the birthday reveal. |
 
 The HUD is persistent across the CTF phase. Progress is written to
 `localStorage` under `mi-birthday-protocol:v1`, so **refreshing never loses
@@ -210,14 +205,13 @@ npm run verify
 
 A jsdom-driven end-to-end harness
 ([`scripts/verify.entry.tsx`](scripts/verify.entry.tsx)) boots the real app and
-plays it: **341 assertions**, currently all passing. It covers
+plays it: **316 assertions**, currently all passing. It covers
 
 - the full solve path, memory by memory, including the multi-stage final core;
 - hint tracking, wrong-answer messaging, persistence across a simulated refresh;
 - M.I.A.'s progression and her never leaking an unrecovered answer;
 - the static puzzle files (`/archive/*`, `/records/*`) resolving;
 - the gallery + timeline falling back to placeholders when photos are missing;
-- the QR module matrix — square viewBox, correct quiet zone, ECC H;
 - **leak scans** over every file that ships in `dist/` and over `src/`: no real
   flag, no snake-case answer, no joke words. The scan guards against coming back
   empty, because it once did — `dist/assets` was renamed to `dist/static`, the
@@ -235,15 +229,15 @@ if you only touched app logic.
 src/
   data/
     birthdayConfig.ts   ← EVERYTHING personal. Dates, people, memories, all
-                          copy, photos, timeline, QR, reveal. Edit here.
+                          copy, photos, timeline, reveal. Edit here.
     challenges.ts       ← the 7 memories: puzzles, hints, sealed answers
     miaDialogue.ts      ← M.I.A.'s conversational rules
   ai/                   ← scripted engine + optional local-model adapter
   challenges/           ← one component per memory
   components/           ← HUD, M.I.A. terminal, decoder toolbox, flag submit,
-                          hints, QR panel, settings
+                          hints, settings
   pages/                ← landing, protocol, ctf, reveal
-  utils/                ← seal, encoding, flags, qr, format, sound
+  utils/                ← seal, encoding, flags, format, sound
   styles/
 public/
   photos/               ← your photos (fixed filenames)

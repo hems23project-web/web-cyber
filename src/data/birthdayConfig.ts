@@ -408,36 +408,6 @@ export const TIMELINE: TimelineEntry[] = [
 ]
 
 /* -----------------------------------------------------------------------------
- * 13. QR CODE
- * --------------------------------------------------------------------------
- * Built for printing AND for embroidery: error correction H, high contrast,
- * large quiet zone, square modules, no gradient, no logo, no rounding.
- * -------------------------------------------------------------------------- */
-
-export const QR_CONFIG = {
-  /** What the QR encodes. Falls back to window.location.origin when empty. */
-  value: SITE_URL,
-  errorCorrectionLevel: 'H' as const,
-  /** Quiet zone in modules. 8 is generous; embroidery wants generous. */
-  margin: 8,
-  /** PNG raster scale (px per module). 16 → a big, clean, printable bitmap. */
-  pngScale: 16,
-  dark: '#000000',
-  light: '#FFFFFF',
-  /** Keep modules perfectly square — no rounded corners, no dots. */
-  squareModules: true,
-  developerNote:
-    'For embroidery, physically test the final stitched QR with multiple phones before production.',
-  stitchNotes: [
-    'Minimum stitched size: 30 × 30 mm. Below that, module pitch drops under what phone cameras resolve.',
-    'Stitch dark modules in solid black on solid white. No greys, no tone-on-tone.',
-    'Turn OFF error-correction "smoothing" / anti-aliasing in the digitiser, and disable any auto-underlay that softens edges.',
-    'Keep the quiet zone empty — no border, no text, no stitching inside it.',
-    'Photograph the finished stitch at arm\'s length in even light, then scan with at least three different phones.',
-  ] as string[],
-} as const
-
-/* -----------------------------------------------------------------------------
  * 14. MISC UI STRINGS
  * -------------------------------------------------------------------------- */
 
